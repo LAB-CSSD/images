@@ -1,4 +1,4 @@
-name: Docker Gfortran
+name: Docker Oneapi
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -19,7 +19,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository_owner }}/gfortran
+  IMAGE_NAME: ${{ github.repository_owner }}/oneapi
 
 jobs:
   build:
@@ -63,7 +63,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
-          context: ./containers/fortran-build
+          context: ./containers/oneapi-build
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
