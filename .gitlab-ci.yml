@@ -1,0 +1,29 @@
+variables:
+  DOCKER_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+.build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.14.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${SUB_PATH}"
+      --dockerfile "${SUB_PATH}/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/gfortran:${CI_COMMIT_TAG}"
+  rules:
+    - if: $CI_COMMIT_TAG
+
+🐳 gfortran:
+  extends:
+    - .build
+  variables:
+    SUB_PATH: ${CI_PROJECT_DIR}/containers/fortran-build
+    SHORT_NAME: gfortran
+
+🐳 doxygen:
+  extends:
+    - .build
+  variables:
+    SUB_PATH: ${CI_PROJECT_DIR}/containers/doxygen-build
+    SHORT_NAME: doxygen
